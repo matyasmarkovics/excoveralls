@@ -23,7 +23,9 @@ defmodule ExCoveralls.Cover do
 
   @doc "Wrapper for :cover.modules"
   def modules do
-    :cover.modules |> Enum.filter(&has_compile_info?/1)
+    :cover.modules
+    ++ :cover.imported_modules
+    |> Enum.filter(&has_compile_info?/1)
   end
 
   def has_compile_info?(module) do
