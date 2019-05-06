@@ -8,7 +8,12 @@ defmodule ExCoveralls.PathReader do
   Returns the Mix.Project base path.
   """
   def base_path do
-    Enum.find(Mix.Project.config_files, &(&1 =~ ~r/mix.exs/)) |> Path.dirname
+    path = Enum.find(Mix.Project.config_files, File.cwd!(), &(&1 =~ ~r/mix.exs/))
+    if File.dir?(path) do
+      path
+    else
+      path |> Path.dirname
+    end
   end
 
   @doc """
